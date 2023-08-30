@@ -17,7 +17,7 @@ function getLocs() {
 
 function addLoc(name, lat, lng) {
     const loc = _createLoc(name, lat, lng)
-
+    
     
 }
 
