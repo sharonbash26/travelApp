@@ -6,15 +6,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>TravelTip</title>
 </head>
-<<<<<<< HEAD
-<body>
-    <h1>TravelTip Starter</h1>
-    <button class="myLocation">My Location</button>
-    <button class="copyLocation">Copy Location</button>
-=======
+
 <body style="background-color: #3E363F;">
     <h1 class="text-center text-light">TravelTip Starter</h1>
     <main class="container">
+        <button onclick="getCurrentLocation()" class="myLocation btn btn-primary btn-sm m-1" >My Location</button>
+        <button class="copyLocation btn btn-primary btn-sm m-1">Copy Location</button>
+        <input class="" type="text" id="myInput" placeholder="Enter Location" >
+    <button class="goSearch btn btn-secondary btn-sm" onclick="onGo()">GO</button>
     <div id="map" style="width: 100%; height: 400px;"></div>
     
     <button onclick="onAddMarker()" class="btn-add-marker btn btn-warning m-1">Add Marker Speific Location</button>

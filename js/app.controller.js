@@ -7,8 +7,8 @@ window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onRemove=onRemove
-window.onGoToLocation=onGoToLocation
 window.onGo=onGo
+window.getCurrentLocation=getCurrentLocation
 var gMap
 function onInit() {
     mapService.initMap()
@@ -66,10 +66,49 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
-// function onPanTo(lat,lng) {
-//     console.log('Panning the Map')
-//     mapService.panTo(lat, lng)
-// }
+function getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const currentLocation = new google.maps.LatLng(lat, lng);
+  
+          gMap.setCenter(currentLocation);
+  
+          var marker = new google.maps.Marker({
+            position: currentLocation,
+            map: gMap,  // Make sure the map variable is accessible and correctly initialized
+            title: 'Current Location'
+          });
+  
+          // Create a geocoder object
+          var geocoder = new google.maps.Geocoder();
+  
+          // Reverse geocoding
+          geocoder.geocode({ 'location': currentLocation }, function (results, status) {
+            if (status === 'OK') {
+              if (results[0]) {
+                console.log("Place name is: ", results[0].formatted_address);
+                var elCurLocation=document.querySelector('.user-pos')
+                elCurLocation.innerText=results[0].formatted_address
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+          });
+        },
+        function (error) {
+          console.error('Error getting current location:', error);
+        }
+      );
+    } else {
+      console.log('Geolocation is not supported in your browser.');
+    }
+  }
+  
 
 function onPanTo(lat,lng) {
     console.log('Panning the Map')
@@ -80,11 +119,7 @@ function onRemove(placeId) {
     mapService.removePlace(placeId)
     renderPlaces()
 }
-function onGoToLocation(placeId) {
-    const place =  mapService.getPlaceById(placeId)
-    gMap.setCenter({ lat: place.lat, lng: place.lng })
-    gMap.setZoom(place.zoom)
-  }
+
 
 function renderPlaces() {
     var places = mapService.getPlaces()
@@ -99,16 +134,12 @@ function renderPlaces() {
             console.log('placelng', place.lng)
             return `
                 <ul>
-<<<<<<< HEAD
-                    <li>Place Name:${place.name}<button class="x" onclick="onRemove('${place.id}',event)">X</button>
-                    <button class="go" onclick="onPanTo(${place.lat},${place.lng})">Go</button></li>
-
-=======
                     <li class="list-group-item"><span class="text-light fw-bold m-2">${place.name} </span><button class="x btn btn-outline-danger btn-sm" onclick="onRemove('${place.id}',event)">X</button>
-                    <button class="go btn btn-outline-success btn-sm" onclick="onPanTo('${place.id}')">Go</button></li>
->>>>>>> 7a2dc7efca4e1a4b08100a4fac0bf10827ff6056
+                    <button class="go btn btn-outline-success btn-sm" onclick="onPanTo(${place.lat},${place.lng})">Go</button></li>
                 </ul>`
         })
         elPlaces.innerHTML = strHTML.join('')
     }
 }
+
+//last version 
