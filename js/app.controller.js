@@ -79,14 +79,14 @@ function renderPlaces() {
     console.log('places', places)
     var elPlaces = document.querySelector('.places')
     if (!places.length) {
-        elPlaces.innerHTML = `<span class="places-not-found"> No places found </span>`
+        elPlaces.innerHTML = `<span class="places-not-found text-light"> No places found </span>`
     } else {
         var strHTML = places.map(place => {
             console.log('placeName', place.name)
             return `
                 <ul>
-                    <li>Place Name:${place.name}<button class="x" onclick="onRemove('${place.id}',event)">X</button>
-                    <button class="go" onclick="onPanTo('${place.id}')">Go</button></li>
+                    <li class="list-group-item"><span class="text-light fw-bold m-2">${place.name} </span><button class="x btn btn-outline-danger btn-sm" onclick="onRemove('${place.id}',event)">X</button>
+                    <button class="go btn btn-outline-success btn-sm" onclick="onPanTo('${place.id}')">Go</button></li>
                 </ul>`
         })
         elPlaces.innerHTML = strHTML.join('')
