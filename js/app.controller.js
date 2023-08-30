@@ -7,19 +7,21 @@ window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onRemove=onRemove
-
+window.onGoToLocation=onGoToLocation
+window.onGo=onGo
+var gMap
 function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready');
-            const map = mapService.getMap();
-            map.addListener("click", (mapsMouseEvent) => {
+                  gMap = mapService.getMap();
+            gMap.addListener("click", (mapsMouseEvent) => {
                 const name = prompt('Enter location:');
                 const lat = mapsMouseEvent.latLng.lat();
                 const lng = mapsMouseEvent.latLng.lng();
 
                 console.log('lat long', lat, lng)
-                mapService.addPlace(lat, lng, name, map.getZoom())
+                mapService.addPlace(lat, lng, name, gMap.getZoom())
                 renderPlaces()
             });
         })
@@ -37,7 +39,9 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
-
+function onGo(){
+    alert('goooo')
+}
 function onAddMarker() {
     console.log('Adding a marker')
     mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
@@ -62,17 +66,25 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
-function onPanTo() {
+// function onPanTo(lat,lng) {
+//     console.log('Panning the Map')
+//     mapService.panTo(lat, lng)
+// }
+
+function onPanTo(lat,lng) {
     console.log('Panning the Map')
-    mapService.panTo(35.6895, 139.6917)
+    mapService.panTo(lat, lng)
 }
 
 function onRemove(placeId) {
-    console.log('fff')
     mapService.removePlace(placeId)
     renderPlaces()
-    console.log('ggg')
 }
+function onGoToLocation(placeId) {
+    const place =  mapService.getPlaceById(placeId)
+    gMap.setCenter({ lat: place.lat, lng: place.lng })
+    gMap.setZoom(place.zoom)
+  }
 
 function renderPlaces() {
     var places = mapService.getPlaces()
@@ -83,10 +95,13 @@ function renderPlaces() {
     } else {
         var strHTML = places.map(place => {
             console.log('placeName', place.name)
+            console.log('placelat', place.lat)
+            console.log('placelng', place.lng)
             return `
                 <ul>
                     <li>Place Name:${place.name}<button class="x" onclick="onRemove('${place.id}',event)">X</button>
-                    <button class="go" onclick="onPanTo('${place.id}')">Go</button></li>
+                    <button class="go" onclick="onPanTo(${place.lat},${place.lng})">Go</button></li>
+
                 </ul>`
         })
         elPlaces.innerHTML = strHTML.join('')

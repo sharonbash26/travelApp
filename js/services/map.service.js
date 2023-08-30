@@ -18,7 +18,7 @@ var gMap
 var gPlaces=[]
 var STORAGE_KEY='placeDB'
 
-function initMap(lat = 32.0749831, lng = 34.9120554) {
+function initMap(lat = 29.5577, lng = 34.9519) {
     console.log('InitMap')
     return _connectGoogleApi()
         .then(() => {
@@ -27,6 +27,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 document.querySelector('#map'), {
                 center: { lat, lng },
                 zoom: 15
+                
             })
             console.log('Map!', gMap)
         })
@@ -60,6 +61,7 @@ function _createPlace(latitude = 32.1416, longitude = 34.831213, name, zoom = 15
         lng: longitude,
         name: name,
         zoom: zoom
+        
     }
 
 }
