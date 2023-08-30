@@ -6,16 +6,29 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onRemove=onRemove
 
 function onInit() {
     mapService.initMap()
         .then(() => {
-            console.log('Map is ready')
-            const map = mapService.getMap()
-            map.addListener("click",)
+            console.log('Map is ready');
+            const map = mapService.getMap();
+            map.addListener("click", (mapsMouseEvent) => {
+                const name = prompt('Enter location:');
+                const lat = mapsMouseEvent.latLng.lat();
+                const lng = mapsMouseEvent.latLng.lng();
+
+                console.log('lat long', lat, lng)
+                mapService.addPlace(lat, lng, name, map.getZoom())
+                renderPlaces()
+            });
         })
-        .catch(() => console.log('Error: cannot init map'))
+        .catch((err) => {
+            console.error('Error initializing map:', err);
+        });
 }
+
+
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
@@ -52,4 +65,30 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map')
     mapService.panTo(35.6895, 139.6917)
+}
+
+function onRemove(placeId) {
+    console.log('fff')
+    mapService.removePlace(placeId)
+    renderPlaces()
+    console.log('ggg')
+}
+
+function renderPlaces() {
+    var places = mapService.getPlaces()
+    console.log('places', places)
+    var elPlaces = document.querySelector('.places')
+    if (!places.length) {
+        elPlaces.innerHTML = `<span class="places-not-found"> No places found </span>`
+    } else {
+        var strHTML = places.map(place => {
+            console.log('placeName', place.name)
+            return `
+                <ul>
+                    <li>Place Name:${place.name}<button class="x" onclick="onRemove('${place.id}',event)">X</button>
+                    <button class="go" onclick="onPanTo('${place.id}')">Go</button></li>
+                </ul>`
+        })
+        elPlaces.innerHTML = strHTML.join('')
+    }
 }

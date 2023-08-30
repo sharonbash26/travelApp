@@ -2,7 +2,8 @@ import { storageService } from "./async-storage.service.js"
 import { utilService } from "./util.service.js"
 
 export const locService = {
-    getLocs
+    getLocs,
+    makeId
 }
 
 
@@ -17,6 +18,7 @@ function getLocs() {
 
 function addLoc(name, lat, lng) {
     const loc = _createLoc(name, lat, lng)
+    gPlaces.unshift(place)
     
     
 }
@@ -43,4 +45,13 @@ function _createLocs() {
     if (!locs || !locs.length) {
         _createDemoLocs()
     }
+}
+
+function makeId(length = 3) {
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var txt = ''
+    for (var i = 0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+    return txt
 }

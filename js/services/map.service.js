@@ -1,15 +1,22 @@
 import { api } from "./secret.js"
+import { utilService } from "./util.service.js"
 
 export const mapService = {
     initMap,
     addMarker,
     panTo,
-    getMap
+    getMap,
+    getPlaces,
+    addPlace,
+    removePlace,
+    getPlaceById
 }
 
 
 // Var that is used throughout this Module (not global)
 var gMap
+var gPlaces=[]
+var STORAGE_KEY='placeDB'
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
@@ -25,8 +32,11 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
-function getMap(){
+function getMap() {
     return gMap
+}
+function getPlaces(){
+    return gPlaces
 }
 
 function addMarker(loc) {
@@ -36,6 +46,30 @@ function addMarker(loc) {
         title: 'Hello World!'
     })
     return marker
+}
+function addPlace(lat, lng, name, zoom) {
+    const place = _createPlace( lat, lng, name,zoom)
+    gPlaces.unshift(place)
+    utilService.saveToStorage(STORAGE_KEY)
+
+}
+function _createPlace(latitude = 32.1416, longitude = 34.831213, name, zoom = 15) {
+    return {
+        id:  utilService.makeId(),
+        lat: latitude,
+        lng: longitude,
+        name: name,
+        zoom: zoom
+    }
+
+}
+function getPlaceById(placeId) {
+    return gPlaces.find(place => place.id === placeId)
+}
+function removePlace(placeId) {
+    var placeIndex = gPlaces.findIndex(place => place.id === placeId)
+    gPlaces.splice(placeIndex, 1)
+    utilService.saveToStorage(STORAGE_KEY,gPlaces)
 }
 
 function panTo(lat, lng) {
@@ -56,3 +90,4 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
