@@ -3,27 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>TravelTip</title>
 </head>
+<<<<<<< HEAD
 <body>
     <h1>TravelTip Starter</h1>
     <button class="myLocation">My Location</button>
     <button class="copyLocation">Copy Location</button>
+=======
+<body style="background-color: #3E363F;">
+    <h1 class="text-center text-light">TravelTip Starter</h1>
+    <main class="container">
+>>>>>>> 7a2dc7efca4e1a4b08100a4fac0bf10827ff6056
     <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button>
+    
+    <button onclick="onAddMarker()" class="btn-add-marker btn btn-warning m-1">Add Marker Speific Location</button>
+    <button onclick="onGetUserPos()" class="btn-user-pos btn btn-info m-1">Get User Position</button>
+    <button onclick="onGetLocs()" class="btn-get-locs btn btn-success m-1">Get Locations</button>
+    <button onclick="onPanTo()"class="btn-pan btn btn-secondary m-1">Pan Map to Tokyo</button>
+    
+    <p class="mt-1 text-light">You are at: <span class="user-pos"></span></p>
 
-    <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations: 
-        <pre class="locs"></pre>
-    </p>
+    <h4 class="text-light">Places:</h4>
     <selection class="places">
-        <h1>Places:</h1>
     </selection>
+    </main>
     
 
     <script type="module" src="js/app.controller.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
