@@ -11,6 +11,8 @@ function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready')
+            const map = mapService.getMap()
+            map.addListener("click",)
         })
         .catch(() => console.log('Error: cannot init map'))
 }
